@@ -11,7 +11,7 @@ target_average = 10  # stop condition
 
 while True:
     obs, _ = env.reset()
-    action = env.action_space.sample()  # random agent for now
+    action = env.action_space.sample()
     obs, reward, done, _, info = env.step(action)
     rewards_history.append(reward)
 
