@@ -1,7 +1,9 @@
-import gym
-from gym import spaces
+# Replace these imports at the top
+import gymnasium as gym
+from gymnasium import spaces
 import numpy as np
 from PIL import Image, ImageDraw
+
 
 class SimpleColorEnv(gym.Env):
     """
@@ -11,7 +13,7 @@ class SimpleColorEnv(gym.Env):
     Reward: +1 if correct, -1 if wrong
     Episode: single step
     """
-    
+
     def __init__(self):
         super(SimpleColorEnv, self).__init__()
         self.observation_space = spaces.Box(0, 255, (84, 84, 3), dtype=np.uint8)
@@ -33,7 +35,8 @@ class SimpleColorEnv(gym.Env):
     def step(self, action):
         correct_action = 0 if self.target_color == "red" else 1
         reward = 1.0 if action == correct_action else -1.0
-        done = True  # one-step episode
+        terminated = True  # one-step episode
+        truncated = False
         info = {"target": self.target_color}
         obs, _ = self.reset()
-        return obs, reward, done, False, info
+        return obs, reward, terminated, truncated, info
