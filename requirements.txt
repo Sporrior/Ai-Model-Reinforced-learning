@@ -2,3 +2,4 @@ torch
 gymnasium
 matplotlib
 numpy
+"gymnasium[classic-control]"
