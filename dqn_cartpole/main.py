@@ -1,9 +1,13 @@
 import gymnasium as gym
 from dqnAgent import DQNAgent
 
-def train_dqn(episodes=500):
+
+def train_dqn(episodes=500, save_every=1):
     env = gym.make("CartPole-v1", render_mode="human")
     agent = DQNAgent(state_dim=4, action_dim=2)
+
+    # Load previous model if exists
+    agent.load()
 
     for e in range(episodes):
         state, _ = env.reset()
@@ -20,7 +24,15 @@ def train_dqn(episodes=500):
 
         agent.update_target_model()
         agent.decay_epsilon()
-        print(f"Episode {e+1}/{episodes}, Total Reward: {total_reward}, Epsilon: {agent.epsilon:.2f}")
+        print(f"Episode {e + 1}/{episodes}, Total Reward: {total_reward}, Epsilon: {agent.epsilon:.2f}")
+
+        # Save periodically
+        if (e + 1) % save_every == 0:
+            agent.save()
+
+    # Save final checkpoint
+    agent.save()
+
 
 if __name__ == "__main__":
     train_dqn()
